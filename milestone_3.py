@@ -4,12 +4,12 @@ word_list = ['banana', 'apple', 'pear', 'orange', 'kewi']
 print(word_list)
 word = random.choice(word_list)
 
-def check_guess(guess):
+def check_guess(guess_letter):
     """
     Check if the guessed letter is in the word and provide feedback to the user.
 
     Parameters:
-    guess (str): The letter that the user has guessed.
+    guess_letter (str): The letter that the user has guessed.
 
     Returns:
     None
@@ -17,10 +17,10 @@ def check_guess(guess):
     This function converts the guess to lowercase, checks if the guess is in the word,
     and prints a message to the console to inform the user whether their guess was correct or not.
     """
-    if guess.lower() in word:
-        print(f"Good guess! {guess} is in the word.")
+    if guess_letter.lower() in word:
+        print(f"Good guess! {guess_letter} is in the word.")
     else:
-        print(f"Sorry, {guess} is not in the word. Try again.")
+        print(f"Sorry, {guess_letter} is not in the word. Try again.")
         
 def ask_for_input():
     """
@@ -37,11 +37,11 @@ def ask_for_input():
     the check_guess function.
     """
     while True:
-        guess = input('Guess a letter:')
-        if len(guess)>0 and guess.isalpha():
+        guess_letter = input('Guess a letter:')
+        if len(guess_letter)>0 and guess_letter.isalpha():
             break
         else:
             print('Invalid letter. Please, enter a single alphabetical character.')
-    check_guess(guess)
+    check_guess(guess_letter)
         
 ask_for_input()
