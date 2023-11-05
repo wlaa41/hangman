@@ -1,10 +1,11 @@
-# Hangman Game in Python
+# Hangman Game in Python WIP
 
 ## Table of Contents
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
 - [File Structure](#file)
+- [Functions](#functions)
 - [License](#license)
 
 ## Description
@@ -23,9 +24,13 @@ Before you begin, ensure you have Python installed on your system.
 ```bash
 git clone git@github.com:wlaa41/hangman.git
 ```
+2. Run the script
+```bash
+python3 milestone3
+```
 
 
-# Usage Instructions
+## Usage Instructions
 
 This section explains how to play the Hangman game.
 
@@ -52,14 +57,30 @@ In this game, the computer selects a word at random from a given list, and you m
 
 Good luck, and try not to hang the man!
 
-# File Structure
+## File Structure
 hangman/
 │
-├── milestone_2.txt          - List of words to use in the game
+├── milestone_2.txt          - List of words to use in the game WIP
+├── milestone_3.txt          - More encapsulated structure WIP
 ├── LICENSE            - License information
 └── README.md          - Documentation for the project
 
-# License
+## Functions
+### `check_guess(guess)`
+- **Description**: This function checks if the user's guessed letter is in the word.
+- **Parameters**: 
+  - `guess`: A string representing the user's guess.
+- **Returns**: None.
+- **Behavior**: The function converts the guess to lowercase and checks if it is in the word. If the guess is correct, it prints a congratulatory message along with the guessed letter. Otherwise, it informs the user that the guess was incorrect.
+
+### `ask_for_input()`
+- **Description**: This function handles the user input for guessing letters.
+- **Parameters**: None.
+- **Returns**: None.
+- **Behavior**: The function enters a loop that continuously prompts the user to input a letter. It performs a check to ensure that the user inputs a single alphabetical character. If the input is invalid, it requests the user to enter the input again. Once a valid input is received, it calls `check_guess()` with the user's guess.
+
+
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
