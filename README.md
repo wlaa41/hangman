@@ -4,7 +4,7 @@
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
-- [File Structure](#file Structure)
+- [File Structure](#file)
 - [License](#license)
 
 ## Description
