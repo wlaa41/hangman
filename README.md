@@ -5,7 +5,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [File Structure](#file)
-- [Functions](#classes)
+- [Classes and Functions](#classes)
 - [License](#license)
 
 ## Description
@@ -58,13 +58,15 @@ In this game, the computer selects a word at random from a given list, and you m
 Good luck, and try not to hang the man!
 
 ## File Structure
+```
 hangman/
 │
-├── milestone_2.txt          - List of words to use in the game WIP
-├── milestone_3.txt          - More encapsulated structure WIP
-├── milestone_4.txt          - More encapsulated structure with a class and extra functions WIP
+├── milestone_2.py          - List of words to use in the game WIP
+├── milestone_3.py          - More encapsulated structure WIP
+├── milestone_4.py          - More encapsulated structure with a class and extra functions WIP
 ├── LICENSE            - License information
 └── README.md          - Documentation for the project
+```
 
 ## Classes and Functions
 
@@ -72,42 +74,35 @@ hangman/
 
 The `Hangman` class is the backbone of the game, encapsulating the game logic and state.
 
-#### `__init__(self, word_list, num_lives=5)`
-- **Description**: Initializes a new instance of the Hangman game.
-- **Parameters**:
-  - `word_list`: A list of strings, each representing a possible word to guess.
-  - `num_lives`: An optional integer representing the number of incorrect guesses allowed before the game is lost (defaults to 5).
-- **Attributes**:
-  - `self.word`: A string randomly chosen from `word_list` that the player will guess.
-  - `self.word_guessed`: A list of strings representing the letters of `self.word` that have been correctly guessed so far, with unguessed letters represented by underscores (`_`).
-  - `self.num_letters`: An integer counting the number of unique letters in `self.word` that have yet to be guessed.
-  - `self.list_of_guesses`: A list that will keep track of all the letters guessed by the player throughout the game.
-- **Behavior**: When an object of `Hangman` is instantiated, it sets up the game by choosing a random word from the provided list, initializing the player's guessed word display to all underscores, and setting the remaining number of unique letters and lives.
+#### Attributes
 
-#### `check_guess(self, guessed_letter)`
-- **Description**: Evaluates the player's guessed letter and updates the game state accordingly.
-- **Parameters**:
-  - `guessed_letter`: A string representing the letter that the player has guessed.
-- **Behavior**: When this method is called, it performs the following actions:
-  1. Converts the guessed letter to lowercase (if necessary).
-  2. Checks if the guessed letter is in the word to be guessed.
-  3. If the guessed letter is correct, it updates `self.word_guessed` to reveal the letter's position(s) in the word.
-  4. If the guessed letter is not correct, it decrements `self.num_lives` to indicate a lost life.
-  5. Prints a message to the player informing them of the correctness of their guess and the remaining number of lives if the guess was incorrect.
-  6. Once a letter is guessed correctly, it also decrements `self.num_letters`, which tracks how many more unique letters need to be guessed.
+- `word_list`: A list of strings, each a possible word to guess.
+- `_num_lives`: An integer representing the number of incorrect guesses allowed before the game is lost. Initialized by the `num_lives` parameter.
+- `_word_to_guess`: A string representing the word that the player needs to guess. This is selected randomly from `word_list`.
+- `_word_guessed`: A list of strings that represents the letters of the word that have been correctly guessed so far. Each unguessed letter is represented by an underscore `_`.
+- `_unique_letters`: An integer counting the number of unique letters in `_word_to_guess` that have yet to be guessed.
+- `_list_of_guesses`: A list that keeps track of all the letters the player has guessed throughout the game.
+
+These attributes are used to track the progress of the game, manage the game state, and determine the end conditions of the game.
+
+
+#### `__init__(self, word_list, num_lives=5)`
+- **Behavior**: Initializes the game by selecting a random word from `word_list`, setting up the initial `word_guessed` with underscores, and initializing the number of lives and unique letters to be guessed. This method sets the stage for the game.
+
+#### `_reduce_lives(self)`
+- **Behavior**: Decreases the `_num_lives` by one whenever a player guesses incorrectly and informs the player of the remaining lives. This method controls the life-tracking aspect of the game, bringing the game closer to an end with each wrong guess.
+
+#### `_update_word_guessed(self, guessed_letter)`
+- **Behavior**: Reveals the correctly guessed letters in their respective positions within `_word_guessed`. It also reduces the count of `_unique_letters` by one for each newly guessed letter, moving the game towards a successful end.
+
+#### `_is_valid_input(self, guessed_letter)`
+- **Behavior**: Checks whether the player's input is valid, ensuring it is a single alphabetical character and not a repeat guess. It prompts the player to re-enter their guess if the input is invalid.
+
+#### `_check_guess(self, guessed_letter)`
+- **Behavior**: Determines if the guessed letter is in the `_word_to_guess`. If it is, it praises the player and updates the game state using `_update_word_guessed`. If not, it calls `_reduce_lives` to decrement the number of lives.
 
 #### `ask_for_input(self)`
-- **Description**: Requests and handles user input for letter guesses.
-- **Parameters**: None.
-- **Behavior**: This method is the interactive part of the game that prompts the user for input. It loops indefinitely, performing the following actions in each iteration:
-  1. Prompts the user to enter a single-letter guess.
-  2. Validates the input to ensure that exactly one alphabetic character is entered.
-  3. If the input is invalid (either not a single character or not alphabetical), it informs the user and requests input again.
-  4. Checks if the guessed letter has already been attempted and informs the user if so.
-  5. If the input is a new valid letter, it proceeds to call `check_guess` with the user's guessed letter.
-  6. Adds the guessed letter to `self.list_of_guesses` to keep track of all attempts.
-  7. The loop continues until the word is fully guessed or the user runs out of lives.
-
+- **Behavior**: This method is a continuous loop that prompts the player to guess a letter and processes the input. It calls `_is_valid_input` to validate and `_check_guess` to process the guess. The loop persists until the word is fully guessed or the player runs out of lives.
 
 ## License
 
