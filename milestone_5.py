@@ -1,11 +1,16 @@
 import random
 
 class Hangman:
-    """A simple Hangman game class."""
+    """Hangman game class where users can guess the word one letter at a time."""
 
     def __init__(self, word_list, num_lives=5):
-        """Initialize the game with a list of words and a set number of lives."""
+        """
+        Initialize the Hangman game instance.
 
+        Parameters:
+        word_list (list): A list of words from which the game randomly selects one.
+        num_lives (int): The number of lives the player starts with (default is 5).
+        """
         self.word_list = word_list
         self.num_lives = num_lives
         self._word_to_guess= random.choice(self.word_list)
@@ -14,19 +19,35 @@ class Hangman:
         self._list_of_guesses=[]
     
     def _reduce_lives(self):
-        """Reduce the number of lives left."""
+        """Reduce the number of lives by one and inform the player of their remaining lives."""
         self.num_lives -= 1
         print(f"You have {self.num_lives} lives left.")
         
     def _update_word_guessed(self, guessed_letter):
-        """Reveal the correctly guessed letters in the word."""
+        """
+        Update the word guessed list with the correctly guessed letter.
+
+        Parameters:
+        guessed_letter (str): The letter that the player has guessed.
+        """
+        # Reveal the positions of the correctly guessed letter in the word to guess.
         for index, letter in enumerate(self._word_to_guess):
             if letter == guessed_letter:
                 self._word_guessed[index] = letter
+        # Decrease the count of unique letters as one more is now guessed.
         self.unique_letters_remained -= 1
         
     def _is_valid_input(self, guessed_letter):
-        """Validate the user's input."""
+        """
+        Check if the guessed letter is valid (a single alphabetical character not guessed before).
+
+        Parameters:
+        guessed_letter (str): The letter that the player has guessed.
+
+        Returns:
+        bool: True if the input is valid, False otherwise.
+        """
+        # Check if input is a single alphabetic character and not already guessed.
         if len(guessed_letter) != 1 or not guessed_letter.isalpha():
             print('Invalid input. Please, enter a single alphabetical character.')
             return False
@@ -36,7 +57,13 @@ class Hangman:
         return True
         
     def _check_guess(self, guessed_letter):
-        """Check if the guessed letter is in the word and update the game state."""
+        """
+        Check if the guessed letter is in the word. Update the word or reduce lives accordingly.
+
+        Parameters:
+        guessed_letter (str): The letter that the player has guessed.
+        """
+        # Convert to lowercase to ensure consistent comparison.
         if guessed_letter.lower() in self._word_to_guess:
             print(f"Good guess! {guessed_letter} is in the word.")
             self._update_word_guessed(guessed_letter)
@@ -46,34 +73,61 @@ class Hangman:
             self._reduce_lives()
             
     def ask_for_input(self):
-        """Work in progress"""
+        """
+        Asks the player for their next guess.
+        """
         guessed_letter = input('Guess a letter:')
+        # Proceed only if the input is valid.
         if self._is_valid_input(guessed_letter):
                 self._check_guess(guessed_letter)
                 self._list_of_guesses.append(guessed_letter)
                     
       
     
-word_list = ['banana', 'apple', 'pear', 'orange', 'kiwi'] 
 
 def play_game(word_list):
+    """
+    Play a round of the Hangman game with the given list of words.
+
+    Parameters:
+    word_list (list): A list of words to use for the Hangman game.
+    """
+    # Set the number of lives the player starts with.
     num_lives = 5
+    # Create an instance of the Hangman game.
     game = Hangman(word_list,num_lives)
-    print(game._word_guessed)
-    print(game.num_lives)
-    print(game.unique_letters_remained)
+    
+    # Main game loop
     while True:
+        print()
+        print('---------------------------------------')
         print(f'trial ava = {game.num_lives}')
         print(f'unique letters ava = {game.unique_letters_remained}')
+        print(game._word_guessed)
+        # Check for the lose condition.
         if game.num_lives == 0:
+            print('---------------------------------------')
+            print('---------------------------------------')
+            print('---------------------------------------')
             print('You lost!')
+            print('---------------------------------------')
+            print('---------------------------------------')
+            print('---------------------------------------')
             break
-        elif game.unique_letters_remained >0:
+        
+        # The player continues to guess as long as there are remaining unique letters.
+        if game.unique_letters_remained >0:
             game.ask_for_input()
             if game.unique_letters_remained ==0 :
+                print('---------------------------------------')
+                print('---------------------------------------')
+                print('---------------------------------------')
                 print('Congratulations. You won the game!')
+                print('---------------------------------------')
+                print('---------------------------------------')
+                print('---------------------------------------')
                 break
             
         
-    
+word_list = ['banana', 'apple', 'pear', 'orange', 'kiwi'] 
 play_game(word_list)
