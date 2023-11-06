@@ -38,7 +38,7 @@ def ask_for_input():
     """
     while True:
         guess_letter = input('Guess a letter:')
-        if len(guess_letter)>0 and guess_letter.isalpha():
+        if len(guess_letter) ==1 and guess_letter.isalpha():
             break
         else:
             print('Invalid letter. Please, enter a single alphabetical character.')
