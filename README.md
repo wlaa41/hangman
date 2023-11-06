@@ -16,6 +16,11 @@ What you'll find here:
 - User input validation and error handling.
 - A simple and interactive command-line interface.
 
+### Personal Gain
+
+#### The Unexpected Educational Value of a README
+Crafting the Hangman game, I discovered that the simplicity of the code belies its educational value. It was through this process that I gained a profound appreciation for the README file. The revelation was not merely in mastering its creation, but in recognizing its systematic structure—a feature that now makes deciphering other READMEs more intuitive.
+
 ## Installation
 
 Before you begin, ensure you have Python installed on your system.
@@ -26,7 +31,7 @@ git clone git@github.com:wlaa41/hangman.git
 ```
 2. Run the script
 ```bash
-python3 milestone_4.py
+python3 milestone_5.py
 ```
 
 
@@ -61,11 +66,12 @@ Good luck, and try not to hang the man!
 ```
 hangman/
 │
-├── milestone_2.py          - List of words to use in the game WIP
-├── milestone_3.py          - More encapsulated structure WIP
-├── milestone_4.py          - More encapsulated structure with a class and extra functions WIP
-├── LICENSE            - License information
-└── README.md          - Documentation for the project
+├── milestone_2.py          - Initial list of words for the game.
+├── milestone_3.py          - Improved structure with additional functionality.
+├── milestone_4.py          - Introduction of the Hangman class.
+├── milestone_5.py          - Final game script, complete with all functionalities.
+├── LICENSE                 - License information.
+└── README.md               - Documentation for the project.
 ```
 
 ## Classes and Functions
@@ -76,33 +82,52 @@ The `Hangman` class is the backbone of the game, encapsulating the game logic an
 
 #### Attributes
 
-- `word_list`: A list of strings, each a possible word to guess.
-- `_num_lives`: An integer representing the number of incorrect guesses allowed before the game is lost. Initialized by the `num_lives` parameter.
-- `_word_to_guess`: A string representing the word that the player needs to guess. This is selected randomly from `word_list`.
-- `_word_guessed`: A list of strings that represents the letters of the word that have been correctly guessed so far. Each unguessed letter is represented by an underscore `_`.
-- `_unique_letters`: An integer counting the number of unique letters in `_word_to_guess` that have yet to be guessed.
-- `_list_of_guesses`: A list that keeps track of all the letters the player has guessed throughout the game.
+`word_list:` List of potential words to guess.
+`num_lives:` Number of permitted incorrect guesses.
+`_word_to_guess:` The current word to be guessed by the player.
+`_word_guessed:` Representation of the guessed parts of the word.
+`unique_letters_remained:` Count of distinct letters that need to be guessed.
+`_list_of_guesses:` Record of all guessed letters.
 
 These attributes are used to track the progress of the game, manage the game state, and determine the end conditions of the game.
 
+### Class Methods
 
-#### `__init__(self, word_list, num_lives=5)`
-- **Behavior**: Initializes the game by selecting a random word from `word_list`, setting up the initial `word_guessed` with underscores, and initializing the number of lives and unique letters to be guessed. This method sets the stage for the game.
+### `__init__(self, word_to_guess, num_lives=6)`
+This method is the constructor for the Hangman game class. It initializes the game by setting the word that needs to be guessed and the number of lives the player has. The word is stored in a variable, typically represented by underscores for unguessed letters. The number of lives is set to a default of 6 but can be adjusted.
 
-#### `_reduce_lives(self)`
-- **Behavior**: Decreases the `_num_lives` by one whenever a player guesses incorrectly and informs the player of the remaining lives. This method controls the life-tracking aspect of the game, bringing the game closer to an end with each wrong guess.
+### `_reduce_lives(self)`
+A private method that decrements the `num_lives` variable by one. This method is called whenever the player makes an incorrect guess.
 
-#### `_update_word_guessed(self, guessed_letter)`
-- **Behavior**: Reveals the correctly guessed letters in their respective positions within `_word_guessed`. It also reduces the count of `_unique_letters` by one for each newly guessed letter, moving the game towards a successful end.
+#### `_update_word_guessed(self, letter)`
+This private method updates the display of the word to be guessed with the correctly guessed letter. It replaces the appropriate underscores with the letter if the letter is found in the word.
 
-#### `_is_valid_input(self, guessed_letter)`
-- **Behavior**: Checks whether the player's input is valid, ensuring it is a single alphabetical character and not a repeat guess. It prompts the player to re-enter their guess if the input is invalid.
+#### `_is_valid_input(self, letter)`
+A private method that checks if the player's input is valid. Validity checks usually include ensuring the input is a single letter and has not been guessed before.
 
-#### `_check_guess(self, guessed_letter)`
-- **Behavior**: Determines if the guessed letter is in the `_word_to_guess`. If it is, it praises the player and updates the game state using `_update_word_guessed`. If not, it calls `_reduce_lives` to decrement the number of lives.
+#### `_check_guess(self, letter)`
+This method checks the player's guessed letter against the word. If the letter is in the word, `_update_word_guessed` is called; otherwise, `_reduce_lives` is invoked.
 
 #### `ask_for_input(self)`
-- **Behavior**: This method is a continuous loop that prompts the player to guess a letter and processes the input. It calls `_is_valid_input` to validate and `_check_guess` to process the guess. The loop persists until the word is fully guessed or the player runs out of lives.
+This public method is used to prompt the player for their guess and process it. It calls `_is_valid_input` to validate the guess and then `_check_guess` to check if the guess is correct.
+
+### Game Flow
+
+#### `play_game(self)`
+The `play_game` method is the core method that initializes the game loop and manages the rounds of guessing. It continues to ask the player for input until the word is guessed correctly or the player runs out of lives. The method also handles the end-of-game message, displaying whether the player won or lost.
+
+#### Game Flow Steps:
+
+1. **Initialize Game**: Set up the game with the word to guess and number of lives.
+2. **Game Loop**: Repeat the following steps until the game ends:
+    - Display the current state of the word to guess and the number of lives remaining.
+    - Invoke `ask_for_input` to get the player's guess.
+    - Check if the game has been won (all letters guessed) or lost (no lives remaining).
+3. **End Game**: Once the loop ends, display an appropriate message to the player indicating a win or a loss, and reveal the word if not already guessed.
+
+## Conclusion
+
+Each method in the Hangman game class plays a specific role in managing the game's state and player interactions. Together, they create a seamless and engaging game experience for the player, maintaining the classic challenge of Hangman with the support of modern programming practices.
 
 ## License
 
